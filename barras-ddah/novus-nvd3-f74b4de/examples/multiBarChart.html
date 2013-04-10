@@ -120,6 +120,7 @@ nv.addGraph(function() {
 
     chart.yAxis
         .tickFormat(d3.format('.0f'));
+    chart.forceY([0,100]);
 
     d3.select('#chart1 svg')
         .datum(test_data)
