@@ -106,10 +106,13 @@ console.log(test_data);
 //   };  
 // });
 
-
 var chart;
 nv.addGraph(function() {
     chart = nv.models.multiBarHorizontalChart()
+        .showValues(true)
+        .valueFormat(d3.format('.0f'))
+
+
       // .barColor(d3.scale.category20().range());
 
     // chart.x(function(d) { return d.label; });
@@ -121,6 +124,11 @@ nv.addGraph(function() {
 
     chart.yAxis
         .tickFormat(d3.format('.0f'));
+
+    chart.yAxis = function(text) {
+        return '<h3>' +  y + '% de Cumplimiento</h3>'
+      }
+
 
 
     chart.forceY([0,100]);
