@@ -106,6 +106,7 @@ console.log(test_data);
 //   };  
 // });
 
+
 var chart;
 nv.addGraph(function() {
     chart = nv.models.multiBarHorizontalChart()
@@ -120,11 +121,13 @@ nv.addGraph(function() {
 
     chart.yAxis
         .tickFormat(d3.format('.0f'));
+
+
     chart.forceY([0,100]);
 
     d3.select('#chart1 svg')
         .datum(test_data)
-      .transition().duration(500).call(chart);
+        .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
 
