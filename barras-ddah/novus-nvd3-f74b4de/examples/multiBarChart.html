@@ -13,9 +13,9 @@ text {
   font: 12px sans-serif;
 }
 
-#chart1 {
-  height: 500px;
-  width: 900px;
+.chart {
+  height: 200px;
+  width: 300px;
   margin: 10px;
   min-width: 100px;
   min-height: 100px;
@@ -29,91 +29,122 @@ text {
 </style>
 <body>
 
-  <div id="chart1">
+  <div id="chart1" class="chart">
+    <svg></svg>
+  </div>
+
+  <div id="chart2" class="chart">
+    <svg></svg>
+  </div>
+
+  <div id="chart3" class="chart">
     <svg></svg>
   </div>
 
 <script src="../lib/d3.v2.js"></script>
 <script src="../nv.d3.js"></script>
 <script src="../src/tooltip.js"></script>
-<script src="../src/utils.js"></script>
+<!-- <script src="../src/utils.js"></script> -->
 <script src="../src/models/legend.js"></script>
 <script src="../src/models/axis.js"></script>
 <script src="../src/models/multiBar.js"></script>
 <script src="../src/models/multiBarHorizontalChart.js"></script>
-<script src="stream_layers.js"></script>
+<!-- <script src="stream_layers.js"></script> -->
 <!-- <script type="text/javascript" src="data.json"></script> -->
 <script>
 
-var test_data = [
+var test_data1 = [
   {
-    key: "2010",
+    key: "2011",
     color: "#FF0000",
     values:
       [      
-        { x : "Salud", y : 40 },
-        { x : "Vivienda", y : 30 },
-        { x : "Educación",   y : 20 }, 
-        { x : "Seguridad",   y : 10 },
-        { x : "Modernización del Estado",   y : 2.9 } 
-      ]
-  },
-  {
-    key: "2011",
-    color: "#0000FF",
-    values:
-      [      
-        
-        { x : "Vivienda", y : 50 },
-        { x : "Salud", y : 60 },
-        { x : "Educación",   y : 70 }, 
-        { x : "Seguridad",   y : 20 },
-        { x : "Modernización del Estado",   y : 10 } 
+        { x : "Salud", y : 10 },
       ]
   },
   {
     key: "2012",
+    color: "#0000FF",
+    values:
+      [      
+        { x : "Salud", y : 15 },
+      ]
+  },
+  {
+    key: "2013",
     color: "#FDF100",
     values:
       [      
-        
-        { x : "Vivienda", y : 23 },
-        { x : "Salud", y : 46 },
-        { x : "Educación",   y : 18 }, 
-        { x : "Seguridad",   y : 97 },
-        { x : "Modernización del Estado",   y : 20 } 
+        { x : "Salud", y : 8 },
       ]
   }
-]
-;
+];
 
+var test_data2 = [
+  {
+    key: "2011",
+    color: "#FF0000",
+    values:
+      [      
+        { x : "Educación", y : 20 },
+      ]
+  },
+  {
+    key: "2012",
+    color: "#0000FF",
+    values:
+      [      
+        
+        { x : "Educación", y : 40 },
+      ]
+  },
+  {
+    key: "2013",
+    color: "#FDF100",
+    values:
+      [      
+        { x : "Educación",   y : 18 },
+      ]
+  }
+];
 
-// var test_data = stream_layers(3,10+Math.random()*100,.1).map(function(data, i) {
-// //var test_data = stream_layers(3,1,.1).map(function(data, i) { //for testing single data point
-//   return {
-//     key: 'Stream' + i,
-//     values: data
-//   };
-// });
+var test_data3 = [
+  {
+    key: "2011",
+    color: "#FF0000",
+    values:
+      [      
+        { x : "Mod. del Eº", y : 20 },
+      ]
+  },
+  {
+    key: "2012",
+    color: "#0000FF",
+    values:
+      [      
+        
+        { x : "Mod. del Eº", y : 40 },
+      ]
+  },
+  {
+    key: "2013",
+    color: "#FDF100",
+    values:
+      [      
+        { x : "Mod. del Eº",   y : 54 },
+      ]
+  }
+];
 
-console.log(test_data);
-
-// var negative_test_data = new d3.range(0,3).map(function(d,i) { return {
-//   key: 'Stream' + i,
-//   values: new d3.range(0,10).map( function(f,j) {
-//     return { 
-//              y: 10 + Math.random()*100 * (Math.floor(Math.random()*100)%2 ? 1 : -1),
-//              x: j
-//            }
-//   })
-//   };  
-// });
+console.log(test_data1);
 
 var chart;
 nv.addGraph(function() {
     chart = nv.models.multiBarHorizontalChart()
         .showValues(true)
         .valueFormat(d3.format('.0f'))
+        .showLegend(true)
+
 
 
       // .barColor(d3.scale.category20().range());
@@ -137,7 +168,15 @@ nv.addGraph(function() {
     chart.forceY([0,100]);
 
     d3.select('#chart1 svg')
-        .datum(test_data)
+        .datum(test_data1)
+        .transition().duration(500).call(chart);
+
+    d3.select('#chart2 svg')
+        .datum(test_data2)
+        .transition().duration(500).call(chart);
+
+    d3.select('#chart3 svg')
+        .datum(test_data3)
         .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
